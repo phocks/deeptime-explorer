@@ -25,12 +25,10 @@ import {
 } from "@chakra-ui/react";
 
 import CanvasForceDots from "../CanvasForceDots";
-import mapData from "../../lib/dataMapper"
+import mapData from "../../lib/dataMapper";
 
-import localData from "./localData.json"
+import localData from "./localData.json";
 const mappedData = mapData(localData);
-console.log(mappedData)
-
 
 const App = () => {
   return (

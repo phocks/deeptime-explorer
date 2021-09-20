@@ -33,6 +33,7 @@ import styles from "./styles.module.scss";
 
 // Import map of Australia data
 import australiaTopo from "./australia.topo.json";
+import { render } from "sass";
 let focusPoint = [133.15399233370441, -24.656909465155994];
 const geoMargin = 100;
 
@@ -79,6 +80,8 @@ type CanvasForceDotsProps = {
   linkStrength?: number;
   percentWidth?: number;
 };
+
+let trans = d3.zoomIdentity;
 
 // The function component
 const CanvasForceDots = ({
@@ -259,9 +262,21 @@ const CanvasForceDots = ({
 
   // Clears canvas and draws each animation frame
   const renderFrame = () => {
+    // context.save();
+    // context.clearRect(0, 0, canvasWidth, windowHeight);
+    // context.translate(transform.x, transform.y);
+    // context.scale(transform.k, transform.k);
+
+    // simulation.tick();
+    // renderFrame();
+    // context.restore();
     // Use canvas reference instead of any state due to React
     // not updating in callbacks etc.
+    context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.translate(trans.x, trans.y);
+    context.scale(trans.k, trans.k);
 
     // Draw paths (namely: Australia)
     if (pattern === "geographic") {
@@ -296,6 +311,8 @@ const CanvasForceDots = ({
       context.moveTo(d.x + d.radius, d.y);
       context.arc(d.x, d.y, d.radius || defaultDotRadius, 0, 2 * Math.PI);
     }
+
+    context.restore();
   };
 
   function getRandomPositions(amount: number) {
@@ -313,8 +330,29 @@ const CanvasForceDots = ({
   // Reset the render function otherwise it doesn't
   // track new nodes
   function resetRender() {
+    d3.select(context.canvas).call(
+      d3
+        .zoom()
+        .scaleExtent([0, Infinity])
+        .on("zoom", ({ transform }) => zoomed(transform))
+    );
+
     simulation.on("tick", null);
     simulation.on("tick", renderFrame);
+  }
+
+  function zoomed(transform) {
+    trans = transform; //<-- set to current transform
+    renderFrame(); //<-- use tick to redraw regardless of event
+
+    // context.save();
+    // context.clearRect(0, 0, canvasWidth, windowHeight);
+    // context.translate(transform.x, transform.y);
+    // context.scale(transform.k, transform.k);
+
+    // simulation.tick();
+    // renderFrame();
+    // context.restore();
   }
 
   // onMount
@@ -332,31 +370,14 @@ const CanvasForceDots = ({
       .alphaMin(alphaMin)
       .velocityDecay(velocityDecay);
 
+    // Note: Event listeners don't get state updates properly
+    // simulation.on("tick", renderFrame);
+    // simulation.stop(); // Restart later
+
     canvas = my.canvas = canvasEl.current;
 
     // Set up high DPI (retina) screens
     context = my.context = canvas?.getContext("2d");
-
-    d3.select(context.canvas).call(
-      d3
-        .zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", ({ transform }) => zoomed(transform))
-    );
-
-    function zoomed(transform) {
-      context.save();
-      context.clearRect(0, 0, canvasWidth, windowHeight);
-      context.translate(transform.x, transform.y);
-      context.scale(transform.k, transform.k);
-      renderFrame();
-
-      context.restore();
-    }
-
-    // Note: Event listeners don't get state updates properly
-    simulation.on("tick", renderFrame);
-    simulation.stop(); // Restart later
 
     // Function to remove center force
     function removeCenter() {
@@ -448,12 +469,14 @@ const CanvasForceDots = ({
     const nodePush = async () => {
       for (const node of nodesToPush) {
         nodes.push(node);
-        simulation.nodes(nodes);
-        await new Promise((r) => setTimeout(r, 1));
+
+        // await new Promise((r) => setTimeout(r, 1));
       }
     };
 
     nodePush();
+
+    simulation.nodes(nodes);
 
     // Calculate links
     const linkData = data.filter((d) => {
