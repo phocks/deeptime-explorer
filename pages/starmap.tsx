@@ -1,20 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
-import App from "../Components/App";
+import StarMap from "../Components/StarMap";
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>Deep Time Explorer</title>
-        <meta
-          name="description"
-          content="Exploring deep time stories and data"
-        />
+        <title>Star Map - Deep Time Explorer</title>
+        <meta name="description" content="A star map explorer tool." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <App />
+      <main>
+        <StarMap />
+      </main>
 
       <footer></footer>
     </>

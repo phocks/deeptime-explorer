@@ -1,0 +1,16 @@
+.root {
+  display: flex;
+
+  .stage {
+    min-height: 100vh;
+    width: 80%;
+    background-color: bisque;
+  }
+
+  .controls {
+    min-height: 100vh;
+    width: 20%;
+    background-color: white;
+    padding: 0.5rem;
+  }
+}
