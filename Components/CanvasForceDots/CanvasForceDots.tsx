@@ -349,7 +349,7 @@ const CanvasForceDots = ({
     links = my.links = [];
 
     // Generate a default random position list
-    positions.default = getRandomPositions(500);
+    positions.random = getRandomPositions(500);
 
     simulation = my.simulation = d3
       .forceSimulation()
@@ -517,6 +517,6 @@ export default CanvasForceDots;
 
 // PURE FUNCTIONS!!!
 function mapDefaultPos({ positions, i, axis }) {
-  const loopIndex = i % positions.default.length;
-  return positions.default[loopIndex][axis];
+  const loopIndex = i % positions.random.length;
+  return positions.random[loopIndex][axis];
 }

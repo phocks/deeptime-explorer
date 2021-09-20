@@ -34,7 +34,7 @@ const mappedData = mapData(localData);
 
 import { getNextPattern } from "./helpers";
 
-const patterns = ["default", "geographic", "spiral", "timeline"];
+const patterns = ["default", "geographic", "spiral", "timeline", "random"];
 
 const App = () => {
   const [pattern, setPattern] = useState<any>("default");
