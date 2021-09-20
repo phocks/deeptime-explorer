@@ -29,7 +29,7 @@ import { getForce } from "./forceActions";
 import { usePrevious } from "./helpers";
 
 // Component styles
-import styles from "./styles.module.scss";
+import styles from "./CanvasForceDots.module.scss";
 
 // Import map of Australia data
 import australiaTopo from "./australia.topo.json";
@@ -262,15 +262,7 @@ const CanvasForceDots = ({
 
   // Clears canvas and draws each animation frame
   const renderFrame = () => {
-    // context.save();
-    // context.clearRect(0, 0, canvasWidth, windowHeight);
-    // context.translate(transform.x, transform.y);
-    // context.scale(transform.k, transform.k);
-
-    // simulation.tick();
-    // renderFrame();
-    // context.restore();
-    // Use canvas reference instead of any state due to React
+    // Use canvas ref instead of any state due to React
     // not updating in callbacks etc.
     context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -342,17 +334,9 @@ const CanvasForceDots = ({
   }
 
   function zoomed(transform) {
-    trans = transform; //<-- set to current transform
-    renderFrame(); //<-- use tick to redraw regardless of event
-
-    // context.save();
-    // context.clearRect(0, 0, canvasWidth, windowHeight);
-    // context.translate(transform.x, transform.y);
-    // context.scale(transform.k, transform.k);
-
-    // simulation.tick();
-    // renderFrame();
-    // context.restore();
+    console.log(transform);
+    trans = transform;
+    renderFrame();
   }
 
   // onMount
