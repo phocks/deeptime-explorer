@@ -1,0 +1,9 @@
+.root {
+  user-select: none;
+  background-color: black;
+}
+
+.canvas {
+  vertical-align: top; // Remove bottom line
+  width: 100%;
+}

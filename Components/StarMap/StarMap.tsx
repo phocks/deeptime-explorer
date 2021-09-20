@@ -24,19 +24,27 @@ import {
   Divider,
 } from "@chakra-ui/react";
 
+import CanvasForceDots from "../CanvasForceDots";
+import mapData from "../../lib/dataMapper"
+
+import localData from "./localData.json"
+const mappedData = mapData(localData);
+console.log(mappedData)
+
+
 const App = () => {
   return (
     <ChakraProvider>
       <div className={styles.root}>
         <div className={styles.stage}>
-          {/* <CanvasForceDots
-            data={data}
-            pattern={pattern}
-            drawLinks={drawLinks}
-            forces={forces}
-            linkStrength={linkStrength}
+          <CanvasForceDots
+            data={mappedData}
+            // pattern={}
+            // drawLinks={drawLinks}
+            // forces={forces}
+            // linkStrength={linkStrength}
             percentWidth={80}
-          /> */}
+          />
         </div>
         <div className={styles.controls}>Hello</div>
       </div>
