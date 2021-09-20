@@ -33,7 +33,7 @@ import styles from "./CanvasForceDots.module.scss";
 
 // Import map of Australia data
 import australiaTopo from "./australia.topo.json";
-import { render } from "sass";
+
 let focusPoint = [133.15399233370441, -24.656909465155994];
 const geoMargin = 100;
 
@@ -161,8 +161,20 @@ const CanvasForceDots = ({
     // Custom patterns
     // TODO: Move these into separate forces that can be added
     // and remove at will
+    // Temporarily remove forces every time...
+    // TODO: Move to force actions or something
+    simulation.force("radial", null);
+    simulation.force("y", null);
+    simulation.force("x", null);
+
     switch (pattern) {
       case "default":
+        simulation.force(
+          "radial",
+          d3.forceRadial(100, canvasWidth / 2, windowHeight / 2)
+        );
+        break;
+      case "random":
         simulation
           .force(
             "x",
@@ -322,19 +334,11 @@ const CanvasForceDots = ({
   // Reset the render function otherwise it doesn't
   // track new nodes
   function resetRender() {
-    d3.select(context.canvas).call(
-      d3
-        .zoom()
-        .scaleExtent([0, Infinity])
-        .on("zoom", ({ transform }) => zoomed(transform))
-    );
-
     simulation.on("tick", null);
     simulation.on("tick", renderFrame);
   }
 
   function zoomed(transform) {
-    console.log(transform);
     trans = transform;
     renderFrame();
   }
@@ -391,6 +395,13 @@ const CanvasForceDots = ({
       .geoPath()
       .projection(projection)
       .context(context);
+
+    d3.select(context.canvas).call(
+      d3
+        .zoom()
+        .scaleExtent([0, Infinity])
+        .on("zoom", ({ transform }) => zoomed(transform))
+    );
 
     return () => {
       simulation.stop();

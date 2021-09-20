@@ -55,6 +55,7 @@ const App = () => {
         </div>
         <div className={styles.controls}>
           <Button
+          rounded={0}
             onClick={() => {
               setPattern(getNextPattern(pattern, patterns));
             }}
