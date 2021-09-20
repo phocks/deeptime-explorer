@@ -22,20 +22,33 @@ import {
   useBoolean,
   Divider,
   Link,
-  useColorMode
+  useColorMode,
+  IconButton,
 } from "@chakra-ui/react";
 import DynamicLink from "next/link";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 const App = () => {
-  const { colorMode, toggleColorMode } = useColorMode()
+  const { colorMode, toggleColorMode } = useColorMode();
   console.log(colorMode);
-  
+
   return (
     <div className={styles.root}>
       <Container>
-        <Heading size="md" py="4">Deep Time Exploration Tools</Heading>
-        <DynamicLink href={"/starmap"} passHref><Link>Star Map &rarr;</Link></DynamicLink>
-
+        <Heading size="md" py="4">
+          Deep Time Exploration Tools
+        </Heading>
+        <Text>
+          <DynamicLink href={"/starmap"} passHref>
+            <Link>Star Map &rarr;</Link>
+          </DynamicLink>
+        </Text>
+        <Divider my="4" />
+        <IconButton
+          aria-label="Toggle dark mode"
+          onClick={toggleColorMode}
+          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+        />
       </Container>
     </div>
   );
