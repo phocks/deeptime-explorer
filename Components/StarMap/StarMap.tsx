@@ -60,21 +60,19 @@ const App = () => {
             <Button
               rounded={0}
               onClick={() => {
-                setPattern(getNextPattern(pattern, patterns));
+                setPattern((pattern) => getNextPattern(pattern, patterns));
               }}
             >
               Change pattern
             </Button>
             <FormControl display="flex" alignItems="center">
-              
               <Switch
                 id="zoom-toggle"
                 spacing={6}
                 checked={isZoomable}
                 onChange={() => {
-                  setIsZoomable(!isZoomable);
+                  setIsZoomable((isZoomable) => !isZoomable);
                 }}
-                
               />
               <FormLabel htmlFor="zoom-toggle" mb="0" ml="3">
                 Pan and zoom
