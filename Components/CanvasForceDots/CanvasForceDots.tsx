@@ -282,7 +282,7 @@ const CanvasForceDots = ({
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     // Handle zoom effects
-    // context.translate(trans.x, trans.y);
+    context.translate(trans.x, trans.y);
     context.scale(trans.k, trans.k);
 
     // Draw paths (namely: Australia)
@@ -507,7 +507,6 @@ const CanvasForceDots = ({
         d3
           .zoom()
           .scaleExtent([0, Infinity])
-          .scaleTo(this)
           .on("zoom", ({ transform }) => zoomed(transform))
       );
     } else {

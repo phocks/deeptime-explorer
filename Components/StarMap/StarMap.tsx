@@ -66,16 +66,19 @@ const App = () => {
               Change pattern
             </Button>
             <FormControl display="flex" alignItems="center">
-              <FormLabel htmlFor="zoom-toggle" mb="0">
-                Pan and zoom
-              </FormLabel>
+              
               <Switch
                 id="zoom-toggle"
                 spacing={6}
+                checked={isZoomable}
                 onChange={() => {
                   setIsZoomable(!isZoomable);
                 }}
+                
               />
+              <FormLabel htmlFor="zoom-toggle" mb="0" ml="3">
+                Pan and zoom
+              </FormLabel>
             </FormControl>
           </Stack>
         </div>
