@@ -79,6 +79,7 @@ type CanvasForceDotsProps = {
   drawLinks?: boolean;
   linkStrength?: number;
   percentWidth?: number;
+  isZoomable?: boolean;
 };
 
 let trans = d3.zoomIdentity;
@@ -100,6 +101,7 @@ const CanvasForceDots = ({
   drawLinks = false,
   linkStrength = 0.001,
   percentWidth = 100,
+  isZoomable = false,
   ...props
 }: CanvasForceDotsProps) => {
   // DOM references (must use null for some reason)
@@ -279,7 +281,8 @@ const CanvasForceDots = ({
     context.save();
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    context.translate(trans.x, trans.y);
+    // Handle zoom effects
+    // context.translate(trans.x, trans.y);
     context.scale(trans.k, trans.k);
 
     // Draw paths (namely: Australia)
@@ -356,7 +359,7 @@ const CanvasForceDots = ({
       .alphaDecay(alphaDecay)
       .alphaTarget(alphaTarget)
       .alphaMin(alphaMin)
-      .velocityDecay(velocityDecay);
+      .velocityDecay(velocityDecay)
 
     // Note: Event listeners don't get state updates properly
     // simulation.on("tick", renderFrame);
@@ -395,13 +398,6 @@ const CanvasForceDots = ({
       .geoPath()
       .projection(projection)
       .context(context);
-
-    d3.select(context.canvas).call(
-      d3
-        .zoom()
-        .scaleExtent([0, Infinity])
-        .on("zoom", ({ transform }) => zoomed(transform))
-    );
 
     return () => {
       simulation.stop();
@@ -504,6 +500,20 @@ const CanvasForceDots = ({
   useEffect(() => {
     updateForces();
   }, [forces, linkStrength]);
+
+  useEffect(() => {
+    if (isZoomable) {
+      d3.select(context.canvas).call(
+        d3
+          .zoom()
+          .scaleExtent([0, Infinity])
+          .scaleTo(this)
+          .on("zoom", ({ transform }) => zoomed(transform))
+      );
+    } else {
+      d3.select(context.canvas).on(".zoom", null);
+    }
+  }, [isZoomable]);
 
   return (
     <div className={styles.root}>

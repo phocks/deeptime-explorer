@@ -30,7 +30,6 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
 const App = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  console.log(colorMode);
 
   return (
     <div className={styles.root}>

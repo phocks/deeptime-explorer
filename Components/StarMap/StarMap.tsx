@@ -39,6 +39,7 @@ const patterns = ["default", "geographic", "spiral", "timeline", "random"];
 const App = () => {
   const [pattern, setPattern] = useState<any>("default");
   const [forces, setForces] = useState(Set(["collide"]));
+  const [isZoomable, setIsZoomable] = useState(false);
 
   return (
     <ChakraProvider>
@@ -47,21 +48,36 @@ const App = () => {
           <CanvasForceDots
             data={mappedData}
             pattern={pattern}
-            // drawLinks={drawLinks}
+            drawLinks={true}
             forces={forces}
             // linkStrength={linkStrength}
             percentWidth={80}
+            isZoomable={isZoomable}
           />
         </div>
         <div className={styles.controls}>
-          <Button
-          rounded={0}
-            onClick={() => {
-              setPattern(getNextPattern(pattern, patterns));
-            }}
-          >
-            Change pattern
-          </Button>
+          <Stack spacing={3}>
+            <Button
+              rounded={0}
+              onClick={() => {
+                setPattern(getNextPattern(pattern, patterns));
+              }}
+            >
+              Change pattern
+            </Button>
+            <FormControl display="flex" alignItems="center">
+              <FormLabel htmlFor="zoom-toggle" mb="0">
+                Pan and zoom
+              </FormLabel>
+              <Switch
+                id="zoom-toggle"
+                spacing={6}
+                onChange={() => {
+                  setIsZoomable(!isZoomable);
+                }}
+              />
+            </FormControl>
+          </Stack>
         </div>
       </div>
     </ChakraProvider>
