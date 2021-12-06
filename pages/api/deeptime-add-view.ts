@@ -98,6 +98,7 @@ export default async function handler(req, res) {
           res.status(200).json({ message: "Data probably inserted..." })
     } else {
       // Handle any other HTTP method
+      res.status(200).json({ message: "Use POST" })
     }
   }
   
