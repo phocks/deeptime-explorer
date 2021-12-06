@@ -16,7 +16,6 @@ import * as d3scale from "d3-scale";
 import * as d3geo from "d3-geo";
 import * as d3zoom from "d3-zoom";
 
-// For D3 it's easier to use require
 const d3 = {
   ...d3selection,
   ...d3force,

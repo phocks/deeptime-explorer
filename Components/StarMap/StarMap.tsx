@@ -38,7 +38,7 @@ const patterns = ["default", "geographic", "spiral", "timeline", "random"];
 
 const App = () => {
   const [pattern, setPattern] = useState<any>("default");
-  const [forces, setForces] = useState(Set(["collide"]));
+  const [forces, setForces] = useState(Set(["collide", "time-link"]));
   const [isZoomable, setIsZoomable] = useState(false);
 
   return (
