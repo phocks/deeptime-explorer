@@ -47,6 +47,13 @@ const handler = async (req, res) => {
     // Record already in there
     const record = records[0];
 
+    // See if changed
+    const configOnAirtable = record.get("config");
+    if (configOnAirtable === config) {
+      res.status(200).json({ message: "No changes" });
+      return;
+    }
+
     // Update record
     const response = await base("all-views").update(record.id, {
       id: id,
@@ -55,7 +62,7 @@ const handler = async (req, res) => {
 
     console.log(response);
 
-    res.status(200).json({ message: "That maybe worked..." });
+    res.status(200).json({ message: "Record update!" });
   }
 };
 
