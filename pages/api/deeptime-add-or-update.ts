@@ -47,6 +47,20 @@ const handler = async (req, res) => {
     // Record already in there
     const record = records[0];
 
+    // Check if we are deleting
+    const { deleted } = body;
+
+    if (deleted) {
+      const response = await base("all-views").update(record.id, {
+        id: id,
+        config: config,
+        deleted: deleted ? deleted : false,
+      });
+
+      res.status(200).json({ message: "Record set as deleted" });
+      return;
+    }
+
     // See if changed
     const configOnAirtable = record.get("config");
     if (configOnAirtable === config) {
@@ -58,6 +72,7 @@ const handler = async (req, res) => {
     const response = await base("all-views").update(record.id, {
       id: id,
       config: config,
+      deleted: false,
     });
 
     console.log(response);
